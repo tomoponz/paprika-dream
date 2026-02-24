@@ -99,41 +99,34 @@
   window.addEventListener("resize", updateProgress, { passive:true });
   updateProgress();
 
-  // --- Weird TV: lazy-load YouTube into #tvScreen ---
-  const tvPlay = document.getElementById("tvPlay");
-  const tvPoster = document.getElementById("tvPoster");
-  const tvScreen = document.getElementById("tvScreen");
+  // --- Floating TV Dock: autoplay YouTube on load ---
+  const yt = document.getElementById("ytDock");
+  const unmuteBtn = document.getElementById("tvUnmute");
+  const closeBtn = document.getElementById("tvClose");
+  const dock = document.getElementById("tvDock");
 
-  function loadYouTube(){
-    if(!tvScreen) return;
-    // already loaded?
-    if(tvScreen.querySelector("iframe")) return;
-
-    const iframe = document.createElement("iframe");
-    iframe.width = "100%";
-    iframe.height = "100%";
-    iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-    iframe.allowFullscreen = true;
-
-    // use youtube-nocookie for privacy; autoplay only after user click
-    iframe.src = "https://www.youtube-nocookie.com/embed/Mr86_f-kLSQ?autoplay=1&mute=0&rel=0&modestbranding=1";
-    iframe.title = "YouTube video player";
-
-    iframe.style.border = "0";
-    iframe.style.position = "absolute";
-    iframe.style.inset = "0";
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
-
-    tvScreen.appendChild(iframe);
-    if(tvPoster) tvPoster.style.display = "none";
+  function setYtSrc(mute){
+    if(!yt) return;
+    const m = mute ? 1 : 0;
+    // NOTE: Autoplay with sound is usually blocked; we autoplay muted, and unmute on user click.
+    yt.src = `https://www.youtube-nocookie.com/embed/Mr86_f-kLSQ?autoplay=1&mute=${m}&playsinline=1&rel=0&modestbranding=1`;
   }
 
-  if(tvPlay){
-    tvPlay.addEventListener("click", loadYouTube);
-  }
+  // Autoplay (muted) as soon as the page loads
+  setYtSrc(true);
 
-  // --- Dream Log (localStorage) ---
+  // Click to unmute (reload iframe with mute=0; user gesture allows audio)
+  unmuteBtn?.addEventListener("click", () => {
+    setYtSrc(false);
+  });
+
+  // Close dock (optional)
+  closeBtn?.addEventListener("click", () => {
+    if(dock) dock.style.display = "none";
+    if(yt) yt.src = ""; // stop playback
+  });
+
+// --- Dream Log (localStorage) ---
   const KEY = "paprikaDreamLog_v1";
   const titleEl = document.getElementById("dlTitle");
   const textEl = document.getElementById("dlText");

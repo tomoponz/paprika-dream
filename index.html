@@ -144,33 +144,8 @@
             </p>
           </div>
         </div>
-
-        <div class="tvWrap" aria-label="weird tv player">
-          <div class="tvFrame">
-            <div class="tvBezel" aria-hidden="true"></div>
-
-            <div class="tvScreen" id="tvScreen">
-              <!-- poster overlay; iframe loads on click (lighter) -->
-              <div class="tvPoster" id="tvPoster">
-                <div class="tvPosterText">
-                  <div class="tvTitle">play in TV</div>
-                  <div class="tvSub">YouTube: Mr86_f-kLSQ</div>
-                </div>
-                <button id="tvPlay" class="tvPlay" type="button">PLAY</button>
-              </div>
-              <div class="tvScan" aria-hidden="true"></div>
-            </div>
-
-            <div class="tvFeet" aria-hidden="true">
-              <span class="knob"></span><span class="knob"></span><span class="knob"></span>
-            </div>
-          </div>
-        </div>
-
-        <p class="note">
-          ※ PLAYを押した瞬間だけYouTubeを読み込む（初回表示を軽くする）。
-        </p>
-      </div>
+        <p class="note">※ YouTubeは左下の「TVドック」に固定表示（スクロール追随）。</p>
+</div>
     </section>
 
     <!-- 4) Dream Log (案3: local diary) -->
@@ -264,5 +239,27 @@
   <footer class="footer">
     <small>© paprika-dream • scroll experience</small>
   </footer>
+
+  <!-- Floating TV Dock (follows while scrolling) -->
+  <aside id="tvDock" class="tvDock" aria-label="floating tv">
+    <div class="tvDockFrame">
+      <div class="tvDockBezel" aria-hidden="true"></div>
+      <div class="tvDockScreen" id="tvDockScreen">
+        <iframe id="ytDock"
+          title="YouTube video"
+          allow="autoplay; encrypted-media; picture-in-picture"
+          allowfullscreen
+          referrerpolicy="origin-when-cross-origin"
+        ></iframe>
+
+        <button id="tvUnmute" class="tvUnmute" type="button" aria-label="unmute">🔊</button>
+        <button id="tvClose" class="tvClose" type="button" aria-label="close">✕</button>
+
+        <div class="tvDockScan" aria-hidden="true"></div>
+      </div>
+      <div class="tvDockFeet" aria-hidden="true"><span class="knob"></span><span class="knob"></span></div>
+    </div>
+  </aside>
+
 </body>
 </html>
