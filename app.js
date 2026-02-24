@@ -90,3 +90,22 @@
   window.addEventListener("resize", updateProgress, { passive:true });
   updateProgress();
 })();
+
+
+// --- TV embed: lazy-load YouTube on click (keeps initial load light) ---
+(() => {
+  "use strict";
+  document.addEventListener("click", (e) => {
+    const btn = e.target && e.target.closest ? e.target.closest(".tvPlay") : null;
+    if(!btn) return;
+
+    const screen = btn.closest(".tvScreen");
+    if(!screen) return;
+
+    const iframe = screen.querySelector("iframe[data-src]");
+    if(iframe && !iframe.getAttribute("src")){
+      iframe.setAttribute("src", iframe.getAttribute("data-src"));
+    }
+    btn.remove();
+  }, { passive:true });
+})();

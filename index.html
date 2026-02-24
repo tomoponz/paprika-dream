@@ -47,13 +47,15 @@
   </header>
 
   <main class="stack">
-    <section id="tokyo" class="scene" data-bg="img/Papurika_Tokyo_joku.png" data-name="Tokyo">
+    <section id="tokyo" class="scene" data-bg="img/Papurika_Tokyo_joku.png" data-name="Home">
       <div class="panel">
         <div class="kicker">(home)</div>
         <h1 class="h1">Dreaming Interface</h1>
         <p class="sub">
-          下へスクロールすると背景が切り替わる。<br />
-          できるだけ軽くするため、変化は <b>opacity / transform</b> 中心。
+          現実の輪郭が溶け出す場所へようこそ。<br />
+          ここは、破棄されたアイデアと無意識が交差するデジタル空間。<br />
+          下へスクロールして、果てのないパレードに合流してください。<br />
+          あなたが見ているのは私の夢か、それとも――。
         </p>
 
         <div class="grid" aria-label="preview">
@@ -76,7 +78,7 @@
         </div>
 
         <p class="note">
-          ※ 109ichiki.com 的な「ミニマル＋作品が主役」の作法を参考にしている。<br />
+          ※ スマホで重いときは、画像をWebP/AVIF化すると体感が一気に軽くなる。<br />
           ※ 画像が出ない時はファイル名の大文字小文字がズレてないか確認。
         </p>
       </div>
@@ -85,12 +87,16 @@
     <section id="kousin" class="scene" data-bg="img/Papurika_kousin.png" data-name="Works">
       <div class="panel">
         <div class="kicker">(works)</div>
-        <h2 class="h2">Update Corridor</h2>
-        <p class="sub">背景：<code>img/Papurika_kousin.png</code></p>
+        <h2 class="h2">Parade of Fragments</h2>
+        <p class="sub">
+          脈絡のない記録（ログ）たちが、列をなして行進を始める。<br />
+          <span class="muted">背景：<code>img/Papurika_kousin.png</code></span>
+        </p>
 
         <ul class="list">
-          <li>このセクションに、制作ログ／更新履歴を入れると“サイトっぽさ”が出る</li>
-          <li>文章は短く、余白を多めに</li>
+          <li>過去のプロジェクトは死なず、無意識の海で形を変える</li>
+          <li>バグもエラーも、ここでは極彩色のパレードの一部</li>
+          <li>抑圧された創造性が暴走する、終わりのない更新履歴</li>
         </ul>
       </div>
     </section>
@@ -98,18 +104,55 @@
     <section id="main" class="scene" data-bg="img/Papurika_main.png" data-name="Scene">
       <div class="panel">
         <div class="kicker">(scene)</div>
-        <h2 class="h2">Main Dream</h2>
-        <p class="sub">背景：<code>img/Papurika_main.png</code></p>
+        <h2 class="h2">The Collective Theater</h2>
+        <p class="sub">
+          スクリーンの向こう側で暴れ回る、純粋な混沌。<br />
+          <span class="muted">背景：<code>img/Papurika_main.png</code></span>
+        </p>
 
         <div class="split">
           <div class="box">
             <div class="boxTitle">idea</div>
-            <p class="boxText">色・反復・違和感の積み重ねで“夢”を作る。</p>
+            <div class="boxTag">【無意識の露出】</div>
+            <p class="boxText">すべての境界が曖昧になる中心地。論理を捨て、視覚的な暴力と色彩の渦に身を委ねるための空間。</p>
           </div>
           <div class="box">
             <div class="boxTitle">next</div>
-            <p class="boxText">必要になったら、ここだけWebGL/動画を遅延ロード。</p>
+            <div class="boxTag">【胡蝶の夢】</div>
+            <p class="boxText">夢から覚めたとき、現実の方が作り物ではないと誰が証明できるだろうか。</p>
           </div>
+        </div>
+
+        <div class="tvBlock" aria-label="tv video">
+          <div class="tv">
+            <div class="tvAntenna" aria-hidden="true"></div>
+
+            <div class="tvBezel">
+              <div class="tvScreen">
+                <button class="tvPlay" type="button" aria-label="Play video">PLAY</button>
+
+                <iframe
+                  class="tvIframe"
+                  title="Dream Signal"
+                  loading="lazy"
+                  allow="autoplay; encrypted-media; picture-in-picture"
+                  allowfullscreen
+                  data-src="https://www.youtube-nocookie.com/embed/Mr86_f-kLSQ?rel=0&modestbranding=1&playsinline=1&autoplay=1">
+                </iframe>
+
+                <div class="tvScan" aria-hidden="true"></div>
+                <div class="tvGlass" aria-hidden="true"></div>
+              </div>
+
+              <aside class="tvSide" aria-hidden="true">
+                <div class="tvKnob"></div>
+                <div class="tvKnob small"></div>
+                <div class="tvSpeaker"></div>
+              </aside>
+            </div>
+          </div>
+
+          <p class="note tvNote">※ クリックでYouTubeを読み込む（軽さ優先）。奇妙な形のテレビ枠に閉じ込めた。</p>
         </div>
       </div>
     </section>
@@ -117,13 +160,16 @@
     <section id="robot" class="scene" data-bg="img/robottonodorei.png" data-name="Profile">
       <div class="panel">
         <div class="kicker">(profile)</div>
-        <h2 class="h2">Robot Slave</h2>
-        <p class="sub">背景：<code>img/robottonodorei.png</code></p>
+        <h2 class="h2">Ghost in the Machine</h2>
+        <p class="sub">
+          システムの歯車であることをやめ、夢の中の蝶になる。<br />
+          <span class="muted">背景：<code>img/robottonodorei.png</code></span>
+        </p>
 
         <div class="mono">
-          <div>style: minimal / bold contrast / noisy calm</div>
-          <div>motion: reveal only (no heavy filters)</div>
-          <div>assets: keep original / avoid copyrighted stills</div>
+          <div>identity: 昼はコードに縛られ、夜は混沌を組み上げる</div>
+          <div>philosophy: 「オセアニアじゃあ常識なんだよ！」——常識を解体する視点</div>
+          <div>status: 現実とデジタルワールドの境界を彷徨う観測者</div>
         </div>
       </div>
     </section>
@@ -131,11 +177,16 @@
     <section id="scramble" class="scene" data-bg="img/sukurannburukousatenn.png" data-name="Contact">
       <div class="panel">
         <div class="kicker">(contact)</div>
-        <h2 class="h2">Scramble Crossing</h2>
-        <p class="sub">背景：<code>img/sukurannburukousatenn.png</code></p>
+        <h2 class="h2">Awakening Point</h2>
+        <p class="sub">
+          夢から覚める時間だ。<br />
+          しかし、この交差点で交わしたシグナルは、現実世界へと持ち越される。<br />
+          混沌のパレードの果てで、あなたからの新たな接続（アクセス）を待っている。<br />
+          <span class="muted">背景：<code>img/sukurannburukousatenn.png</code></span>
+        </p>
 
         <div class="foot">
-          <a class="btn" href="#tokyo">先頭へ</a>
+          <a class="btn" href="#tokyo">現実へ戻る（先頭へ）</a>
         </div>
       </div>
     </section>

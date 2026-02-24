@@ -324,3 +324,147 @@ code{
     transition: none;
   }
 }
+
+/* --- extras: poetic text helpers + weird TV frame --- */
+.muted{ opacity:.78; }
+
+.boxTag{
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;
+  font-size: 12px;
+  opacity: .78;
+  letter-spacing: .08em;
+  margin-bottom: 8px;
+}
+
+/* Weird TV block */
+.tvBlock{ margin-top: 16px; }
+.tv{ width: min(780px, 100%); margin: 0 auto; position: relative; }
+.tvAntenna{
+  position:absolute;
+  top: -26px;
+  left: 50%;
+  width: 160px;
+  height: 36px;
+  transform: translateX(-50%) rotate(-2deg);
+  pointer-events:none;
+}
+.tvAntenna::before,
+.tvAntenna::after{
+  content:"";
+  position:absolute;
+  top: 0;
+  width: 2px;
+  height: 36px;
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.18);
+}
+.tvAntenna::before{ left: 52px; transform: rotate(-18deg); }
+.tvAntenna::after{ right: 52px; transform: rotate(18deg); }
+
+.tvBezel{
+  display:grid;
+  grid-template-columns: 1fr 110px;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.26);
+  box-shadow: 0 22px 80px rgba(0,0,0,.45);
+  transform: rotate(-0.6deg);
+  /* odd shape */
+  clip-path: polygon(6% 8%, 92% 0%, 100% 18%, 96% 92%, 12% 100%, 0% 82%, 2% 22%);
+  border-radius: 36px 14px 44px 18px;
+}
+
+.tvScreen{
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow:hidden;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.45);
+  clip-path: polygon(4% 6%, 96% 0%, 100% 10%, 98% 96%, 6% 100%, 0% 88%, 2% 18%);
+  border-radius: 24px 14px 26px 16px;
+}
+
+.tvIframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  background: transparent;
+}
+
+.tvPlay{
+  position:absolute;
+  inset: 0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border:0;
+  cursor:pointer;
+  color: rgba(255,255,255,.92);
+  letter-spacing: .18em;
+  font-weight: 750;
+  font-size: 14px;
+  background:
+    radial-gradient(600px 260px at 30% 30%, rgba(255,255,255,.10), transparent 55%),
+    linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.46));
+}
+.tvPlay:hover{ background:
+    radial-gradient(600px 260px at 30% 30%, rgba(255,255,255,.14), transparent 55%),
+    linear-gradient(180deg, rgba(0,0,0,.14), rgba(0,0,0,.42));
+}
+
+.tvScan{
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background-image: repeating-linear-gradient(0deg, rgba(255,255,255,.06) 0 1px, transparent 1px 3px);
+  opacity:.12;
+  mix-blend-mode: overlay;
+}
+.tvGlass{
+  position:absolute;
+  inset:-20% -10%;
+  pointer-events:none;
+  background: radial-gradient(900px 420px at 30% 18%, rgba(255,255,255,.14), transparent 55%);
+  transform: rotate(-8deg);
+  opacity:.55;
+}
+
+.tvSide{
+  display:flex;
+  flex-direction:column;
+  gap: 10px;
+  padding-top: 6px;
+  align-items:center;
+  justify-content:flex-start;
+}
+.tvKnob{
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border:1px solid rgba(255,255,255,.16);
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255,255,255,.18), rgba(0,0,0,.20)),
+    radial-gradient(circle at 70% 80%, rgba(0,0,0,.45), transparent 60%);
+}
+.tvKnob.small{ width: 34px; height: 34px; opacity:.9; }
+.tvSpeaker{
+  width: 72px;
+  flex: 1;
+  min-height: 70px;
+  border-radius: 18px;
+  border:1px solid rgba(255,255,255,.12);
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,.10) 0 1px, transparent 1px 4px),
+    rgba(0,0,0,.18);
+  opacity:.85;
+}
+.tvNote{ margin-top: 10px; }
+
+@media (max-width: 720px){
+  .tvBezel{ grid-template-columns: 1fr 86px; }
+  .tvSide{ gap:8px; }
+  .tvSpeaker{ width: 62px; }
+}
