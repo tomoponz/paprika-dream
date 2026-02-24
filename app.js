@@ -1,93 +1,74 @@
-// paprika-dream: scroll story
-// - background changes per section (image or css:theme)
+// paprika-dream: scroll story (functionality-first)
+// - background changes per section
 // - updates header "now" + progress bar
-// - dream log (localStorage)
-// - weird TV (lazy-load YouTube on click)
+// - floating TV dock: autoplay muted on load (audio usually blocked without user gesture)
+// - dream log: localStorage + seeded entries
 
 (() => {
   "use strict";
 
+  // ===== background switcher =====
   const layers = [document.getElementById("bgA"), document.getElementById("bgB")].filter(Boolean);
   const scenes = Array.from(document.querySelectorAll(".scene[data-bg]"));
   const nowName = document.getElementById("nowName");
   const bar = document.getElementById("progressBar");
 
-  if(layers.length < 2 || scenes.length === 0) return;
-
   let active = 0;
-  let currentKey = "";
+  let currentBg = "";
 
-  function setTheme(layer, theme){
-    layer.classList.remove("theme-clinical", "theme-radio");
-    if(theme) layer.classList.add(`theme-${theme}`);
+  function setLayerBg(layer, url){
+    layer.style.backgroundImage = `url("${url}")`;
   }
 
-  function setLayer(layer, bg){
-    if(bg.startsWith("css:")){
-      const theme = bg.slice(4).trim();
-      layer.style.backgroundImage = "none";
-      setTheme(layer, theme);
-      return { kind:"css", val: theme };
-    }
-    // image
-    setTheme(layer, "");
-    layer.style.backgroundImage = `url("${bg}")`;
-    return { kind:"img", val: bg };
-  }
-
-  // Preload only images
-  const preloadCache = new Set();
-  function preload(bg){
-    if(!bg || bg.startsWith("css:") || preloadCache.has(bg)) return;
-    preloadCache.add(bg);
-    const img = new Image();
-    img.decoding = "async";
-    img.loading = "eager";
-    img.src = bg;
-  }
-
-  function showBg(bg){
-    if(!bg) return;
-    if(bg === currentKey) return;
-    currentKey = bg;
+  function showBg(url){
+    if(!url || url === currentBg) return;
+    currentBg = url;
 
     const next = 1 - active;
-    setLayer(layers[next], bg);
-
+    setLayerBg(layers[next], url);
     layers[next].classList.add("on");
     layers[active].classList.remove("on");
     active = next;
   }
 
+  const preloadCache = new Set();
+  function preload(url){
+    if(!url || preloadCache.has(url)) return;
+    preloadCache.add(url);
+    const img = new Image();
+    img.decoding = "async";
+    img.loading = "eager";
+    img.src = url;
+  }
+
   // initial
-  showBg(scenes[0].dataset.bg);
-  layers[0].classList.add("on");
-  preload(scenes[0].dataset.bg);
-  preload(scenes[1]?.dataset.bg);
+  if(layers.length >= 2 && scenes.length){
+    showBg(scenes[0].dataset.bg);
+    layers[active].classList.add("on");
+    preload(scenes[0].dataset.bg);
+    preload(scenes[1]?.dataset.bg);
 
-  const io = new IntersectionObserver((entries) => {
-    const visible = entries
-      .filter(e => e.isIntersecting)
-      .sort((a,b) => (b.intersectionRatio - a.intersectionRatio))[0];
+    const io = new IntersectionObserver((entries) => {
+      const visible = entries
+        .filter(e => e.isIntersecting)
+        .sort((a,b) => (b.intersectionRatio - a.intersectionRatio))[0];
+      if(!visible) return;
 
-    if(!visible) return;
+      const target = visible.target;
+      showBg(target.dataset.bg);
+      if(nowName) nowName.textContent = target.dataset.name || "—";
 
-    const target = visible.target;
-    showBg(target.dataset.bg);
+      const idx = scenes.indexOf(target);
+      preload(scenes[idx + 1]?.dataset.bg);
+    }, {
+      root: null,
+      threshold: [0.25, 0.45, 0.65],
+      rootMargin: "-35% 0px -35% 0px"
+    });
 
-    if(nowName) nowName.textContent = target.dataset.name || "—";
+    scenes.forEach(s => io.observe(s));
+  }
 
-    const idx = scenes.indexOf(target);
-    preload(scenes[idx + 1]?.dataset.bg);
-  }, {
-    root: null,
-    threshold: [0.25, 0.45, 0.65],
-    rootMargin: "-35% 0px -35% 0px"
-  });
-
-  scenes.forEach(s => io.observe(s));
-
-  // progress bar
   function updateProgress(){
     if(!bar) return;
     const doc = document.documentElement;
@@ -99,7 +80,7 @@
   window.addEventListener("resize", updateProgress, { passive:true });
   updateProgress();
 
-  // --- Floating TV Dock: autoplay YouTube on load ---
+  // ===== Floating TV Dock (YouTube) =====
   const yt = document.getElementById("ytDock");
   const unmuteBtn = document.getElementById("tvUnmute");
   const closeBtn = document.getElementById("tvClose");
@@ -108,35 +89,57 @@
   function setYtSrc(mute){
     if(!yt) return;
     const m = mute ? 1 : 0;
-    // NOTE: Autoplay with sound is usually blocked; we autoplay muted, and unmute on user click.
+    // Autoplay with sound is typically blocked; we autoplay muted.
     yt.src = `https://www.youtube-nocookie.com/embed/Mr86_f-kLSQ?autoplay=1&mute=${m}&playsinline=1&rel=0&modestbranding=1`;
   }
 
-  // Autoplay (muted) as soon as the page loads
+  // autoplay muted on load
   setYtSrc(true);
 
-  // Click to unmute (reload iframe with mute=0; user gesture allows audio)
-  unmuteBtn?.addEventListener("click", () => {
-    setYtSrc(false);
-  });
+  // unmute by user gesture (reload iframe with mute=0)
+  unmuteBtn?.addEventListener("click", () => setYtSrc(false));
 
-  // Close dock (optional)
+  // close dock (stop playback)
   closeBtn?.addEventListener("click", () => {
     if(dock) dock.style.display = "none";
-    if(yt) yt.src = ""; // stop playback
+    if(yt) yt.src = "";
   });
 
-// --- Dream Log (localStorage) ---
+  // ===== Dream Log =====
   const KEY = "paprikaDreamLog_v1";
   const SEED_KEY = "paprikaDreamLog_seeded_v1";
 
-  // Seed entries (user-provided dream logs). We store the text EXACTLY as given.
+  const titleEl = document.getElementById("dlTitle");
+  const textEl  = document.getElementById("dlText");
+  const addBtn  = document.getElementById("dlAdd");
+  const clearBtn= document.getElementById("dlClear");
+  const copyBtn = document.getElementById("dlCopy");
+  const listEl  = document.getElementById("dlList");
+
+  function loadLog(){
+    try{ return JSON.parse(localStorage.getItem(KEY) || "[]"); }
+    catch{ return []; }
+  }
+  function saveLog(items){
+    localStorage.setItem(KEY, JSON.stringify(items));
+  }
+  function fmtDate(ts){
+    const d = new Date(ts);
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,"0");
+    const da = String(d.getDate()).padStart(2,"0");
+    const hh = String(d.getHours()).padStart(2,"0");
+    const mm = String(d.getMinutes()).padStart(2,"0");
+    return `${y}-${m}-${da} ${hh}:${mm}`;
+  }
+
+  // Seed entries (exact text)
   const SEED_ENTRIES = [
     {
       ts: new Date("2024-03-17T00:00:00").getTime(),
       title: "2024年3月17日",
       text: `2024年3月17日
-高校生活が終わり、俺はクラスメイトと自由に国内を旅行していた。いわば修学旅行のようなものだ。俺は友人とともに大阪周辺を観光したあと、最終日にクラスの飲み会にLINEで誘われた。場所は地元の飲み屋。ちょうど俺は新幹線で駅に向かってから自宅について一息ついていた。飲み会にどうしても行きたかった俺は車でそこに向かっていた。道中、俺が通っていた中学校が見え、せっかくだから先生にも挨拶をしようと思い、学校に入った。誰もいない2年1組の教室に入り、椅子に座っていた。同じ中学校だったH氏にも飲み会の前に一緒に先生に会おうとLINEで誘った。しばらくして、体操服を着た子どもたちが教室に入ってきた。彼らと談笑をしていると、真っ赤な光が入り込み、急にサイレンが鳴り響いた。放送が入った。
+高校生活が終わり、俺はクラスメイトと自由に国内を旅行していた。いわば修学旅行のようなものだ。俺は友人とともに大阪周辺を観光したあと、最終日にクラスの飲み会にLINEで誘われた。場所は地元の飲み屋。ちょうど俺は新幹線で駅に向かってから自宅について一息ついていた。飲み会にどうしても行きたかった俺は車でそこに向かおうとした。道中、俺が通っていた中学校が見え、せっかくだから先生にも挨拶をしようと思い、学校に入った。誰もいない2年1組の教室に入り、椅子に座っていた。同じ中学校だったH氏にも飲み会の前に一緒に先生に会おうとLINEで誘った。しばらくして、体操服を着た子どもたちが教室に入ってきた。彼らと談笑をしていると、真っ赤な光が入り込み、急にサイレンが鳴り響いた。放送が入った。
 「私達はこれから何人かの生徒を殺します。そのため逃げてください」
 あまりの出来事に俺は唖然としていたが、教室に座っていた生徒は一斉に立ち上がり押しかけるように廊下に出ていった。他の教室からも、人が波のように押しかけている。逃げている生徒の一人に何が起きたかを尋ねた。彼は言った。
 「鬼ごっこが始まった」と。
@@ -151,7 +154,7 @@
 「H。罪状マリオカートを1日8時間以上した罪」しかしH氏はまだ学校に来ていなかった。そのため女は仕方ないと言って罪状を捨てると教室から出ていった。
 教室は静寂に包まれた。するとH氏が教室に入ってきた。
 「ごめん、ちょっと渋滞にあってさ」
-「H、お前生きてたのか」`
+「H、お前生きてたのか"`
     },
     {
       ts: new Date("2024-05-19T00:00:00").getTime(),
@@ -183,7 +186,7 @@
       ts: new Date("2025-03-02T00:00:00").getTime(),
       title: "2025年3月2日",
       text: `2025年3月2日
-友達から、るしあの変態画像が送られてきて、それにツッコミを入れたら 変態画像を収集して共有する 秘密結社の "リアル変態紳士クラブ" に招待されて唖然とした夢を見た。`
+ 友達から、るしあの変態画像が送られてきて、それにツッコミを入れたら 変態画像を収集して共有する 秘密結社の "リアル変態紳士クラブ" に招待されて唖然とした夢を見た。`
     },
     {
       ts: new Date("2025-03-14T00:00:00").getTime(),
@@ -264,40 +267,11 @@ TV新人Dになって、電王となった秋山竜次の撮影時、色々怒�
         if(!existing.has(k)) toAdd.push(it);
       }
 
-      if(toAdd.length){
-        saveLog([...toAdd, ...items]);
-      }
+      if(toAdd.length) saveLog([...toAdd, ...items]);
       localStorage.setItem(SEED_KEY, "1");
     }catch{
       // ignore
     }
-  }
-
-  const titleEl = document.getElementById("dlTitle");
-  const textEl = document.getElementById("dlText");
-  const addBtn = document.getElementById("dlAdd");
-  const clearBtn = document.getElementById("dlClear");
-  const copyBtn = document.getElementById("dlCopy");
-  const listEl = document.getElementById("dlList");
-
-  function loadLog(){
-    try{
-      return JSON.parse(localStorage.getItem(KEY) || "[]");
-    }catch{
-      return [];
-    }
-  }
-  function saveLog(items){
-    localStorage.setItem(KEY, JSON.stringify(items));
-  }
-  function fmtDate(ts){
-    const d = new Date(ts);
-    const y = d.getFullYear();
-    const m = String(d.getMonth()+1).padStart(2,"0");
-    const da = String(d.getDate()).padStart(2,"0");
-    const hh = String(d.getHours()).padStart(2,"0");
-    const mm = String(d.getMinutes()).padStart(2,"0");
-    return `${y}-${m}-${da} ${hh}:${mm}`;
   }
 
   function renderLog(){
@@ -332,8 +306,7 @@ TV新人Dになって、電王となった秋山竜次の撮影時、色々怒�
 
     titleEl.value = "";
     textEl.value = "";
-    seedDreamLogIfNeeded();
-  renderLog();
+    renderLog();
   }
 
   function clearAll(){
@@ -358,5 +331,7 @@ TV新人Dになって、電王となった秋山竜次の撮影時、色々怒�
   addBtn?.addEventListener("click", addEntry);
   clearBtn?.addEventListener("click", clearAll);
   copyBtn?.addEventListener("click", copyAll);
+
+  seedDreamLogIfNeeded();
   renderLog();
 })();
