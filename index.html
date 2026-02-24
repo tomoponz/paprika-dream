@@ -6,7 +6,7 @@
   <title>paprika-dream</title>
   <meta name="description" content="Paprika inspired psychedelic dream scroll (original assets)." />
 
-  <!-- preload the first background to avoid flash -->
+  <!-- preload the first background to reduce initial flash -->
   <link rel="preload" as="image" href="img/Papurika_Tokyo_joku.png" />
 
   <link rel="stylesheet" href="style.css" />
@@ -18,56 +18,122 @@
   <div id="bgA" class="bgLayer" aria-hidden="true"></div>
   <div id="bgB" class="bgLayer" aria-hidden="true"></div>
 
-  <header class="topbar">
+  <header class="topbar" role="banner">
     <div class="brand">
       <span class="dot" aria-hidden="true"></span>
-      <span class="name">paprika-dream</span>
+      <div class="brandText">
+        <div class="brandName">paprika-dream</div>
+        <div class="brandMeta">psychedelic / dream / original assets</div>
+      </div>
     </div>
 
-    <nav class="nav">
-      <a class="navlink" href="#tokyo">Tokyo</a>
-      <a class="navlink" href="#kousin">更新</a>
-      <a class="navlink" href="#main">Main</a>
-      <a class="navlink" href="#robot">Robot</a>
-      <a class="navlink" href="#scramble">Scramble</a>
+    <nav class="nav" aria-label="sections">
+      <a class="navlink" href="#tokyo" data-jump="tokyo">home</a>
+      <a class="navlink" href="#kousin" data-jump="kousin">works</a>
+      <a class="navlink" href="#main" data-jump="main">scene</a>
+      <a class="navlink" href="#robot" data-jump="robot">profile</a>
+      <a class="navlink" href="#scramble" data-jump="scramble">contact</a>
       <a class="navlink ghost" href="https://tomoponz.github.io/" rel="noopener">tomoponzへ</a>
     </nav>
+
+    <div class="status" aria-live="polite">
+      <span class="statusLabel">now</span>
+      <span id="nowName" class="statusName">Tokyo</span>
+    </div>
+
+    <div class="progress" aria-hidden="true">
+      <div id="progressBar" class="progressBar"></div>
+    </div>
   </header>
 
   <main class="stack">
-    <section id="tokyo" class="scene" data-bg="img/Papurika_Tokyo_joku.png">
+    <section id="tokyo" class="scene" data-bg="img/Papurika_Tokyo_joku.png" data-name="Tokyo">
       <div class="panel">
-        <h1 class="h1">Tokyo Joku</h1>
-        <p class="sub">下へスクロールすると、背景が切り替わる（EnterDreamは廃止）。</p>
-        <p class="note">ヒント：上のメニューで各シーンにジャンプできる。</p>
+        <div class="kicker">(home)</div>
+        <h1 class="h1">Dreaming Interface</h1>
+        <p class="sub">
+          下へスクロールすると背景が切り替わる。<br />
+          できるだけ軽くするため、変化は <b>opacity / transform</b> 中心。
+        </p>
+
+        <div class="grid" aria-label="preview">
+          <a class="thumb" href="#kousin" aria-label="kousin">
+            <img src="img/Papurika_kousin.png" alt="" loading="lazy" decoding="async">
+            <span class="cap">kousin</span>
+          </a>
+          <a class="thumb" href="#main" aria-label="main">
+            <img src="img/Papurika_main.png" alt="" loading="lazy" decoding="async">
+            <span class="cap">main</span>
+          </a>
+          <a class="thumb" href="#robot" aria-label="robot">
+            <img src="img/robottonodorei.png" alt="" loading="lazy" decoding="async">
+            <span class="cap">robot</span>
+          </a>
+          <a class="thumb" href="#scramble" aria-label="scramble">
+            <img src="img/sukurannburukousatenn.png" alt="" loading="lazy" decoding="async">
+            <span class="cap">scramble</span>
+          </a>
+        </div>
+
+        <p class="note">
+          ※ 109ichiki.com 的な「ミニマル＋作品が主役」の作法を参考にしている。<br />
+          ※ 画像が出ない時はファイル名の大文字小文字がズレてないか確認。
+        </p>
       </div>
     </section>
 
-    <section id="kousin" class="scene" data-bg="img/Papurika_kousin.png">
+    <section id="kousin" class="scene" data-bg="img/Papurika_kousin.png" data-name="Works">
       <div class="panel">
-        <h2 class="h2">更新（kousin）</h2>
+        <div class="kicker">(works)</div>
+        <h2 class="h2">Update Corridor</h2>
         <p class="sub">背景：<code>img/Papurika_kousin.png</code></p>
+
+        <ul class="list">
+          <li>このセクションに、制作ログ／更新履歴を入れると“サイトっぽさ”が出る</li>
+          <li>文章は短く、余白を多めに</li>
+        </ul>
       </div>
     </section>
 
-    <section id="main" class="scene" data-bg="img/Papurika_main.png">
+    <section id="main" class="scene" data-bg="img/Papurika_main.png" data-name="Scene">
       <div class="panel">
-        <h2 class="h2">Paprika Main</h2>
+        <div class="kicker">(scene)</div>
+        <h2 class="h2">Main Dream</h2>
         <p class="sub">背景：<code>img/Papurika_main.png</code></p>
+
+        <div class="split">
+          <div class="box">
+            <div class="boxTitle">idea</div>
+            <p class="boxText">色・反復・違和感の積み重ねで“夢”を作る。</p>
+          </div>
+          <div class="box">
+            <div class="boxTitle">next</div>
+            <p class="boxText">必要になったら、ここだけWebGL/動画を遅延ロード。</p>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section id="robot" class="scene" data-bg="img/robottonodorei.png">
+    <section id="robot" class="scene" data-bg="img/robottonodorei.png" data-name="Profile">
       <div class="panel">
-        <h2 class="h2">Robot</h2>
+        <div class="kicker">(profile)</div>
+        <h2 class="h2">Robot Slave</h2>
         <p class="sub">背景：<code>img/robottonodorei.png</code></p>
+
+        <div class="mono">
+          <div>style: minimal / bold contrast / noisy calm</div>
+          <div>motion: reveal only (no heavy filters)</div>
+          <div>assets: keep original / avoid copyrighted stills</div>
+        </div>
       </div>
     </section>
 
-    <section id="scramble" class="scene" data-bg="img/sukurannburukousatenn.png">
+    <section id="scramble" class="scene" data-bg="img/sukurannburukousatenn.png" data-name="Contact">
       <div class="panel">
+        <div class="kicker">(contact)</div>
         <h2 class="h2">Scramble Crossing</h2>
         <p class="sub">背景：<code>img/sukurannburukousatenn.png</code></p>
+
         <div class="foot">
           <a class="btn" href="#tokyo">先頭へ</a>
         </div>
@@ -76,7 +142,7 @@
   </main>
 
   <footer class="footer">
-    <small>© paprika-dream (original assets) • background changes on scroll</small>
+    <small>© paprika-dream • background changes on scroll</small>
   </footer>
 </body>
 </html>
