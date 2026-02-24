@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>paprika-dream</title>
+  <meta name="description" content="Paprika inspired psychedelic dream playground (original assets)." />
+
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <!-- Fullscreen dream canvas -->
+  <canvas id="dream" aria-hidden="true"></canvas>
+  <div class="noise" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="dot" aria-hidden="true"></span>
+      <span class="name">paprika-dream</span>
+    </div>
+
+    <div class="controls">
+      <button id="btnLow" class="btn" type="button" aria-pressed="false" title="低負荷モード（軽くする）">
+        低負荷: OFF
+      </button>
+      <button id="btnPause" class="btn" type="button" aria-pressed="false" title="一時停止">
+        停止
+      </button>
+      <a class="btn ghost" href="https://tomoponz.github.io/" rel="noopener">tomoponzへ</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card hero">
+      <h1 class="h1">Dreaming Interface</h1>
+      <p class="sub">
+        「作品そのもの」を転載は禁止で貼るのではなく、雰囲気だけをオリジナルで再現するテンプレ。<br />
+        クリックで起動。矢印キーで“視線の流れ”を少しだけ操れる。
+      </p>
+
+      <div class="btnrow">
+        <button id="btnStart" class="btn primary" type="button">
+          ENTER DREAM
+        </button>
+        <button id="btnWarp" class="btn" type="button" disabled>
+          WARP
+        </button>
+      </div>
+
+      <div class="tips">
+        <div class="tip"><span class="k">↑↓←→</span> ドリフト</div>
+        <div class="tip"><span class="k">Space</span> フラッシュ</div>
+        <div class="tip"><span class="k">Esc</span> 停止/再開</div>
+      </div>
+
+      <p class="note">
+        ※ スマホでは自動で低負荷がONになる。<br />
+        ※ 動画/WebGLは「WARP」押下で遅延ロードする前提（次段階で拡張しやすい構造）。
+      </p>
+    </section>
+
+    <section class="card log">
+      <div class="logHead">
+        <div class="tag">console</div>
+        <button id="btnCopy" class="btn mini" type="button">コピー</button>
+      </div>
+      <pre id="console" class="console" aria-live="polite"></pre>
+    </section>
+  </main>
+
+  <div class="vignette" aria-hidden="true"></div>
+</body>
+</html>
