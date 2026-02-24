@@ -22,13 +22,14 @@ html,body{ height:100% }
 body{
   margin:0;
   color:var(--fg);
+  background-color: var(--bg0);
 
   /* gradients + optional image layer (last) */
   background-image:
     radial-gradient(1200px 700px at 20% 15%, rgba(120,220,255,.14), transparent 60%),
     radial-gradient(900px 600px at 80% 20%, rgba(255,80,140,.12), transparent 55%),
     radial-gradient(800px 650px at 60% 85%, rgba(255,210,110,.10), transparent 55%),
-    linear-gradient(180deg, var(--bg1), var(--bg0)),
+    linear-gradient(180deg, rgba(11,16,36,.55), rgba(5,6,11,.75)),
     var(--bg-image);
   background-size: auto, auto, auto, auto, cover;
   background-position: center, center, center, center, center;
