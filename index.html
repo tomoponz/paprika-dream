@@ -13,6 +13,49 @@
   <link rel="preload" as="image" href="img/bar.png" />
 
   <link rel="stylesheet" href="style.css" />
+
+  <!-- YouTube thumbnail card (inline to avoid touching style.css) -->
+  <style>
+    .ytCard{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      text-decoration:none;
+      color: rgba(255,255,255,.88);
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      border-radius: 16px;
+      padding: 10px 12px;
+    }
+    .ytCard:hover{ border-color: rgba(255,255,255,.22); }
+    .ytThumb{
+      width: 170px;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      object-fit: cover;
+      display:block;
+      opacity:.95;
+    }
+    .ytMeta{ display:flex; flex-direction:column; gap:4px; min-width:0; }
+    .ytLabel{
+      font-size: 11px;
+      opacity: .65;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;
+    }
+    .ytUrl{
+      font-size: 12.5px;
+      opacity: .78;
+      word-break: break-all;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Noto Sans Mono CJK JP", monospace;
+    }
+    @media (max-width: 520px){
+      .ytCard{ flex-direction:column; align-items:flex-start; }
+      .ytThumb{ width: 100%; }
+    }
+  </style>
+
   <script defer src="app.js"></script>
 </head>
 
@@ -155,7 +198,7 @@
       </div>
     </section>
 
-    <!-- Dream Log (keep id="kousin" to preserve old redirects) -->
+    <!-- Dream Log -->
     <section id="kousin" class="scene" data-name="Dream Log" data-bg="img/Papurika_kousin.png">
       <div class="panel">
         <div class="kicker">(dream log)</div>
@@ -213,7 +256,19 @@
           <div class="radioCol">
             <div class="boxTitle">◆ Audiovisual</div>
             <ul class="linkList">
-              <li><span class="dim">https://www.youtube.com/watch?v=4JkIs37a2JE</span></li>
+              <li>
+                <a class="ytCard" href="https://www.youtube.com/watch?v=4JkIs37a2JE" target="_blank" rel="noopener">
+                  <img class="ytThumb"
+                       src="https://i.ytimg.com/vi/4JkIs37a2JE/hqdefault.jpg"
+                       alt="YouTube thumbnail"
+                       loading="lazy"
+                       decoding="async">
+                  <span class="ytMeta">
+                    <span class="ytLabel">YouTube</span>
+                    <span class="ytUrl">https://www.youtube.com/watch?v=4JkIs37a2JE</span>
+                  </span>
+                </a>
+              </li>
               <li><span class="dim">[ playlist / music / noise… ]</span></li>
             </ul>
           </div>
@@ -223,7 +278,7 @@
       </div>
     </section>
 
-    <!-- Profile (keep id="robot" to preserve old redirects) -->
+    <!-- Profile -->
     <section id="robot" class="scene" data-name="Profile" data-bg="img/robottonodorei.png">
       <div class="panel">
         <div class="kicker">(profile)</div>
@@ -240,7 +295,7 @@
       </div>
     </section>
 
-    <!-- Contact (keep id="scramble" to preserve old redirects) -->
+    <!-- Contact -->
     <section id="scramble" class="scene" data-name="Contact" data-bg="img/sukurannburukousatenn.png">
       <div class="panel">
         <div class="kicker">(contact / awakening point)</div>
@@ -259,7 +314,7 @@
 
   </main>
 
-  <!-- Floating TV Dock (follows while scrolling) -->
+  <!-- Floating TV Dock -->
   <aside id="tvDock" class="tvDock" aria-label="floating tv">
     <div class="tvDockFrame">
       <div class="tvDockBezel" aria-hidden="true"></div>
