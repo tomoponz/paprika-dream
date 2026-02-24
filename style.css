@@ -498,3 +498,36 @@ code{
   .navlink, .thumb img{ transition:none }
   .topbar, .cap{ backdrop-filter:none }
 }
+
+
+/* Dream Log accordion */
+.entry{
+  overflow: hidden;
+}
+.entrySummary{
+  cursor: pointer;
+  list-style: none;
+  display:flex;
+  align-items:center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.entrySummary::-webkit-details-marker{ display:none; }
+.entryDay{
+  font-weight: 750;
+  letter-spacing: .04em;
+}
+.entryChevron{
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid rgba(255,255,255,.55);
+  border-bottom: 2px solid rgba(255,255,255,.55);
+  transform: rotate(45deg);
+  transition: transform .18s ease;
+  margin-left: auto;
+  opacity: .8;
+}
+details[open] .entryChevron{ transform: rotate(225deg); }
+.entryBody{
+  padding-top: 10px;
+}

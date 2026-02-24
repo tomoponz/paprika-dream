@@ -133,6 +133,14 @@
     return `${y}-${m}-${da} ${hh}:${mm}`;
   }
 
+  function fmtDay(ts){
+    const d = new Date(ts);
+    const y = d.getFullYear();
+    const m = String(d.getMonth()+1).padStart(2,"0");
+    const da = String(d.getDate()).padStart(2,"0");
+    return `${y}-${m}-${da}`;
+  }
+
   // Seed entries (exact text)
   const SEED_ENTRIES = [
     {
@@ -281,17 +289,37 @@ TV新人Dになって、電王となった秋山竜次の撮影時、色々怒�
       listEl.innerHTML = '<div class="dim">no entries yet.</div>';
       return;
     }
+
     listEl.innerHTML = items.map((it, idx) => {
       const safeTitle = (it.title || "untitled").replace(/[<>]/g,"");
       const safeText = (it.text || "").replace(/[<>]/g,"");
+
+      // Collapsed view: date only
+      const day = fmtDay(it.ts);
+
+      // Expanded view: keep the original text (verbatim) + meta
       return `
-        <div class="entry">
-          <div class="entryTitle">${safeTitle}</div>
-          <div class="entryMeta">${fmtDate(it.ts)} · #${idx+1}</div>
-          <div class="entryText">${safeText}</div>
-        </div>
+        <details class="entry" ${idx === 0 ? "" : ""}>
+          <summary class="entrySummary">
+            <span class="entryDay">${day}</span>
+            <span class="entryChevron" aria-hidden="true"></span>
+          </summary>
+          <div class="entryBody">
+            <div class="entryMeta">${fmtDate(it.ts)} · ${safeTitle}</div>
+            <div class="entryText">${safeText}</div>
+          </div>
+        </details>
       `;
     }).join("");
+  }
+
+
+  function closeOtherEntries(opened){
+    if(!listEl) return;
+    const all = Array.from(listEl.querySelectorAll('details.entry'));
+    for(const d of all){
+      if(d !== opened) d.removeAttribute('open');
+    }
   }
 
   function addEntry(){
@@ -331,6 +359,14 @@ TV新人Dになって、電王となった秋山竜次の撮影時、色々怒�
   addBtn?.addEventListener("click", addEntry);
   clearBtn?.addEventListener("click", clearAll);
   copyBtn?.addEventListener("click", copyAll);
+  // Accordion behavior: keep only one open at a time
+  listEl?.addEventListener("toggle", (e) => {
+    const d = e.target;
+    if(d && d.tagName === "DETAILS" && d.open){
+      closeOtherEntries(d);
+    }
+  }, true);
+
 
   seedDreamLogIfNeeded();
   renderLog();
