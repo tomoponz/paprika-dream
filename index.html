@@ -4,15 +4,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>paprika-dream</title>
-  <meta name="description" content="Paprika inspired psychedelic dream playground (original assets)." />
+  <meta name="description" content="Paprika inspired psychedelic dream scroll (original assets)." />
+
+  <!-- preload the first background to avoid flash -->
+  <link rel="preload" as="image" href="img/Papurika_Tokyo_joku.png" />
 
   <link rel="stylesheet" href="style.css" />
   <script defer src="app.js"></script>
 </head>
-<body class="bg-tokyo">
-  <!-- Fullscreen dream canvas (translucent overlay) -->
-  <canvas id="dream" aria-hidden="true"></canvas>
-  <div class="noise" aria-hidden="true"></div>
+
+<body>
+  <!-- Fixed background layers (cross-fade) -->
+  <div id="bgA" class="bgLayer" aria-hidden="true"></div>
+  <div id="bgB" class="bgLayer" aria-hidden="true"></div>
 
   <header class="topbar">
     <div class="brand">
@@ -20,62 +24,59 @@
       <span class="name">paprika-dream</span>
     </div>
 
-    <div class="controls">
-      <button id="btnLow" class="btn" type="button" aria-pressed="false" title="低負荷モード（軽くする）">
-        低負荷: OFF
-      </button>
-      <button id="btnPause" class="btn" type="button" aria-pressed="false" title="一時停止">
-        停止
-      </button>
-      <a class="btn ghost" href="https://tomoponz.github.io/" rel="noopener">tomoponzへ</a>
-    </div>
+    <nav class="nav">
+      <a class="navlink" href="#tokyo">Tokyo</a>
+      <a class="navlink" href="#kousin">更新</a>
+      <a class="navlink" href="#main">Main</a>
+      <a class="navlink" href="#robot">Robot</a>
+      <a class="navlink" href="#scramble">Scramble</a>
+      <a class="navlink ghost" href="https://tomoponz.github.io/" rel="noopener">tomoponzへ</a>
+    </nav>
   </header>
 
-  <main class="wrap">
-    <section class="card hero">
-      <h1 class="h1">Dreaming Interface</h1>
-      <p class="sub">
-        メイン背景：<code>img/Papurika_Tokyo_joku.png</code><br/>
-        「WARP」は後でWebGL/動画を遅延ロードするためのフック（重いものは必要時だけ読む）。
-      </p>
-
-      <div class="btnrow">
-        <button id="btnStart" class="btn primary" type="button">
-          ENTER DREAM
-        </button>
-        <button id="btnWarp" class="btn" type="button" disabled>
-          WARP
-        </button>
+  <main class="stack">
+    <section id="tokyo" class="scene" data-bg="img/Papurika_Tokyo_joku.png">
+      <div class="panel">
+        <h1 class="h1">Tokyo Joku</h1>
+        <p class="sub">下へスクロールすると、背景が切り替わる（EnterDreamは廃止）。</p>
+        <p class="note">ヒント：上のメニューで各シーンにジャンプできる。</p>
       </div>
-
-      <div class="scenes" aria-label="scenes">
-        <a class="pill" href="kousin.html">更新（kousin）</a>
-        <a class="pill" href="paprika-main.html">Main</a>
-        <a class="pill" href="robot.html">Robot</a>
-        <a class="pill" href="scramble.html">Scramble</a>
-      </div>
-
-      <div class="tips">
-        <div class="tip"><span class="k">↑↓←→</span> ドリフト</div>
-        <div class="tip"><span class="k">Space</span> フラッシュ</div>
-        <div class="tip"><span class="k">Esc</span> 停止/再開</div>
-      </div>
-
-      <p class="note">
-        ※ スマホでは自動で低負荷がONになる。<br />
-        ※ 演出Canvasは透過合成なので、背景画像が見える。
-      </p>
     </section>
 
-    <section class="card log">
-      <div class="logHead">
-        <div class="tag">console</div>
-        <button id="btnCopy" class="btn mini" type="button">コピー</button>
+    <section id="kousin" class="scene" data-bg="img/Papurika_kousin.png">
+      <div class="panel">
+        <h2 class="h2">更新（kousin）</h2>
+        <p class="sub">背景：<code>img/Papurika_kousin.png</code></p>
       </div>
-      <pre id="console" class="console" aria-live="polite"></pre>
+    </section>
+
+    <section id="main" class="scene" data-bg="img/Papurika_main.png">
+      <div class="panel">
+        <h2 class="h2">Paprika Main</h2>
+        <p class="sub">背景：<code>img/Papurika_main.png</code></p>
+      </div>
+    </section>
+
+    <section id="robot" class="scene" data-bg="img/robottonodorei.png">
+      <div class="panel">
+        <h2 class="h2">Robot</h2>
+        <p class="sub">背景：<code>img/robottonodorei.png</code></p>
+      </div>
+    </section>
+
+    <section id="scramble" class="scene" data-bg="img/sukurannburukousatenn.png">
+      <div class="panel">
+        <h2 class="h2">Scramble Crossing</h2>
+        <p class="sub">背景：<code>img/sukurannburukousatenn.png</code></p>
+        <div class="foot">
+          <a class="btn" href="#tokyo">先頭へ</a>
+        </div>
+      </div>
     </section>
   </main>
 
-  <div class="vignette" aria-hidden="true"></div>
+  <footer class="footer">
+    <small>© paprika-dream (original assets) • background changes on scroll</small>
+  </footer>
 </body>
 </html>
