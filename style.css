@@ -12,6 +12,9 @@
   --accent: rgba(255,80,140,.95);
   --accent2: rgba(120,220,255,.95);
   --r: 22px;
+
+  /* Set by body classes below (url("img/...")) */
+  --bg-image: none;
 }
 
 *{ box-sizing:border-box }
@@ -19,21 +22,39 @@ html,body{ height:100% }
 body{
   margin:0;
   color:var(--fg);
-  background: radial-gradient(1200px 700px at 20% 15%, rgba(120,220,255,.14), transparent 60%),
-              radial-gradient(900px 600px at 80% 20%, rgba(255,80,140,.12), transparent 55%),
-              radial-gradient(800px 650px at 60% 85%, rgba(255,210,110,.10), transparent 55%),
-              linear-gradient(180deg, var(--bg1), var(--bg0));
+
+  /* gradients + optional image layer (last) */
+  background-image:
+    radial-gradient(1200px 700px at 20% 15%, rgba(120,220,255,.14), transparent 60%),
+    radial-gradient(900px 600px at 80% 20%, rgba(255,80,140,.12), transparent 55%),
+    radial-gradient(800px 650px at 60% 85%, rgba(255,210,110,.10), transparent 55%),
+    linear-gradient(180deg, var(--bg1), var(--bg0)),
+    var(--bg-image);
+  background-size: auto, auto, auto, auto, cover;
+  background-position: center, center, center, center, center;
+  background-repeat: no-repeat;
+
   font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
-  overflow:hidden; /* prevent double scroll */
+
+  /* single scrollbar */
+  overflow:auto;
 }
 
-/* Fullscreen canvas */
+/* Background images */
+body.bg-tokyo{ --bg-image: url("img/Papurika_Tokyo_joku.png"); }
+body.bg-kousin{ --bg-image: url("img/Papurika_kousin.png"); }
+body.bg-main{ --bg-image: url("img/Papurika_main.png"); }
+body.bg-robot{ --bg-image: url("img/robottonodorei.png"); }
+body.bg-scramble{ --bg-image: url("img/sukurannburukousatenn.png"); }
+
+/* Fullscreen canvas overlay */
 #dream{
   position:fixed;
   inset:0;
   width:100%;
   height:100%;
   display:block;
+  pointer-events:none; /* keep scrolling/links usable */
 }
 
 /* Subtle film grain without heavy filters */
@@ -48,6 +69,8 @@ body{
   mix-blend-mode: overlay;
   animation: drift 10s linear infinite;
 }
+body.lowpower .noise{ opacity:.08; animation:none; }
+
 @keyframes drift{
   from{ transform:translate3d(0,0,0) }
   to{ transform:translate3d(-2%, 1%, 0) }
@@ -92,12 +115,15 @@ body{
 .wrap{
   position:relative;
   z-index:5;
-  height:100%;
+  min-height: 100%;
   display:flex;
+  flex-direction:column;
   align-items:center;
   justify-content:center;
-  padding: 90px 16px 18px;
+  gap: 12px;
+  padding: 92px 16px 22px;
 }
+
 .card{
   width:min(920px, 100%);
   border:1px solid var(--line);
@@ -105,8 +131,9 @@ body{
   border-radius: var(--r);
   box-shadow: 0 22px 80px rgba(0,0,0,.45);
   padding: 18px 18px 16px;
-  backdrop-filter: blur(6px); /* mild: acceptable */
+  backdrop-filter: blur(6px);
 }
+body.lowpower .card{ backdrop-filter: none; }
 
 .hero{ padding: 22px 22px 18px }
 .h1{
@@ -115,7 +142,7 @@ body{
   letter-spacing: .02em;
 }
 .sub{ margin:0 0 16px; color:var(--muted); line-height:1.7 }
-.btnrow{ display:flex; gap:10px; flex-wrap:wrap; margin: 10px 0 14px }
+.btnrow{ display:flex; gap:10px; flex-wrap:wrap; margin: 10px 0 12px }
 
 .btn{
   border:1px solid var(--line);
@@ -138,6 +165,27 @@ body{
 }
 .btn.ghost{ text-decoration:none; display:inline-flex; align-items:center; justify-content:center }
 .btn.mini{ padding: 8px 12px; font-size: 12px; opacity:.9 }
+
+.scenes{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  margin: 6px 0 10px;
+}
+.pill{
+  display:inline-flex;
+  align-items:center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.16);
+  color: rgba(255,255,255,.80);
+  text-decoration:none;
+  font-size: 13px;
+  transition: transform .12s ease, border-color .12s ease, background .12s ease;
+}
+.pill:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.20); background: rgba(0,0,0,.20); }
+.pill:active{ transform: translateY(0px) scale(.99); }
 
 .tips{
   display:flex;
@@ -169,7 +217,7 @@ body{
 
 .note{ margin: 14px 0 0; color: rgba(255,255,255,.55); font-size: 13px; line-height:1.7 }
 
-.log{ margin-top: 12px; padding: 14px 16px 12px }
+.log{ padding: 14px 16px 12px }
 .logHead{ display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom: 10px }
 .tag{
   display:inline-flex;
@@ -194,8 +242,8 @@ body{
   background: rgba(0,0,0,.22);
 }
 
-/* Reduced motion: keep it snappy on weak devices */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .noise{ animation:none }
-  .btn{ transition:none }
+  .btn,.pill{ transition:none }
 }

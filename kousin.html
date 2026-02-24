@@ -3,14 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>paprika-dream</title>
-  <meta name="description" content="Paprika inspired psychedelic dream playground (original assets)." />
-
+  <title>paprika-dream｜Update Corridor</title>
+  <meta name="description" content="背景：img/Papurika_kousin.png" />
   <link rel="stylesheet" href="style.css" />
   <script defer src="app.js"></script>
 </head>
-<body class="bg-tokyo">
-  <!-- Fullscreen dream canvas (translucent overlay) -->
+<body class="bg-kousin">
   <canvas id="dream" aria-hidden="true"></canvas>
   <div class="noise" aria-hidden="true"></div>
 
@@ -21,35 +19,25 @@
     </div>
 
     <div class="controls">
-      <button id="btnLow" class="btn" type="button" aria-pressed="false" title="低負荷モード（軽くする）">
-        低負荷: OFF
-      </button>
-      <button id="btnPause" class="btn" type="button" aria-pressed="false" title="一時停止">
-        停止
-      </button>
-      <a class="btn ghost" href="https://tomoponz.github.io/" rel="noopener">tomoponzへ</a>
+      <button id="btnLow" class="btn" type="button" aria-pressed="false">低負荷: OFF</button>
+      <button id="btnPause" class="btn" type="button" aria-pressed="false">停止</button>
+      <a class="btn ghost" href="index.html">Hub</a>
     </div>
   </header>
 
   <main class="wrap">
     <section class="card hero">
-      <h1 class="h1">Dreaming Interface</h1>
-      <p class="sub">
-        メイン背景：<code>img/Papurika_Tokyo_joku.png</code><br/>
-        「WARP」は後でWebGL/動画を遅延ロードするためのフック（重いものは必要時だけ読む）。
-      </p>
+      <h1 class="h1">Update Corridor</h1>
+      <p class="sub">背景：img/Papurika_kousin.png</p>
 
       <div class="btnrow">
-        <button id="btnStart" class="btn primary" type="button">
-          ENTER DREAM
-        </button>
-        <button id="btnWarp" class="btn" type="button" disabled>
-          WARP
-        </button>
+        <button id="btnStart" class="btn primary" type="button">ENTER DREAM</button>
+        <button id="btnWarp" class="btn" type="button" disabled>WARP</button>
       </div>
 
       <div class="scenes" aria-label="scenes">
-        <a class="pill" href="kousin.html">更新（kousin）</a>
+        <a class="pill" href="index.html">Tokyo（Hub）</a>
+        <a class="pill" href="kousin.html">更新</a>
         <a class="pill" href="paprika-main.html">Main</a>
         <a class="pill" href="robot.html">Robot</a>
         <a class="pill" href="scramble.html">Scramble</a>
@@ -60,11 +48,6 @@
         <div class="tip"><span class="k">Space</span> フラッシュ</div>
         <div class="tip"><span class="k">Esc</span> 停止/再開</div>
       </div>
-
-      <p class="note">
-        ※ スマホでは自動で低負荷がONになる。<br />
-        ※ 演出Canvasは透過合成なので、背景画像が見える。
-      </p>
     </section>
 
     <section class="card log">

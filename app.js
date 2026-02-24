@@ -30,7 +30,7 @@
   };
 
   const canvas = el("dream");
-  const ctx = canvas.getContext("2d", { alpha: false, desynchronized: true });
+  const ctx = canvas.getContext("2d", { alpha: true, desynchronized: true });
 
   const buf = document.createElement("canvas");
   const bctx = buf.getContext("2d", { alpha: false, willReadFrequently: true });
@@ -60,7 +60,6 @@
     const out = new Array(512);
     for(let i=0;i<out.length;i++){
       const a = i / out.length;
-      // vibrant "dream" curve: sine mix (no heavy filters)
       const r = 140 + 110 * Math.sin((a*6.283)*1.0 + 0.0);
       const g = 120 + 120 * Math.sin((a*6.283)*1.0 + 2.1);
       const b = 150 + 105 * Math.sin((a*6.283)*1.0 + 4.2);
@@ -70,7 +69,6 @@
   })();
 
   function field(x, y, t){
-    // cheap pseudo-noise field (continuous)
     const a = Math.sin(x*0.018 + t*0.8) + Math.cos(y*0.014 - t*0.7);
     const b = Math.sin((x+y)*0.010 + t*0.55) + Math.cos((x-y)*0.012 - t*0.6);
     return (a*0.55 + b*0.45);
@@ -86,7 +84,6 @@
     const dy = state.driftY;
     const flash = state.flash;
 
-    // draw at low internal res, then upscale to screen
     let p = 0;
     for(let y=0;y<h;y++){
       for(let x=0;x<w;x++){
@@ -97,11 +94,9 @@
         const u = field(fy, fx, t*0.9);
         const m = (v + u) * 0.5;
 
-        // index with gentle "ripple" + flash
         const idx = ((m + 2.0) * 120 + (Math.sin((fx+fy)*0.02 + t*2.2)*40)) | 0;
         const c = PALETTE[(idx + (flash*90)) & 511];
 
-        // soft vignette in shader-space (cheap)
         const nx = (x / w) * 2 - 1;
         const ny = (y / h) * 2 - 1;
         const vv = Math.max(0, 1 - (nx*nx + ny*ny) * 0.75);
@@ -116,9 +111,12 @@
 
     bctx.putImageData(img, 0, 0);
 
-    // upscale
+    // upscale (translucent so CSS background stays visible)
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.imageSmoothingEnabled = true;
+    ctx.globalAlpha = state.lowPower ? 0.55 : 0.70;
     ctx.drawImage(buf, 0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 1;
 
     // decay
     state.flash = Math.max(0, state.flash - dt*1.8);
@@ -127,7 +125,6 @@
   function tick(ts){
     if(!state.started) return;
 
-    // fps cap for low power (optional)
     const now = ts || performance.now();
     const dt = Math.min(0.05, (now - (state.lastFrameTime || now)) / 1000);
     state.lastFrameTime = now;
@@ -137,7 +134,6 @@
 
       if(state.fpsCap > 0){
         const step = 1 / state.fpsCap;
-        // run at coarse stepping (reduce CPU)
         if((state.t % step) < dt){
           render(dt);
         }
@@ -152,6 +148,9 @@
   function setLowPower(on){
     state.lowPower = !!on;
     state.fpsCap = state.lowPower ? 24 : 0;
+
+    document.body.classList.toggle("lowpower", state.lowPower);
+
     const btn = el("btnLow");
     if(btn){
       btn.setAttribute("aria-pressed", String(state.lowPower));
@@ -174,7 +173,6 @@
     if(state.started) return;
     state.started = true;
 
-    // auto low power for touch-like devices
     if(isTouchLike()){
       setLowPower(true);
       log("[hint] touch device detected -> low power enabled");
@@ -218,7 +216,6 @@
     window.addEventListener("resize", () => resize(), { passive: true });
 
     window.addEventListener("keydown", (e) => {
-      // don't mess with typing
       const t = (e.target && e.target.tagName) ? e.target.tagName.toLowerCase() : "";
       if(t === "input" || t === "textarea") return;
 
