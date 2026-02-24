@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>paprika-dream</title>
-  <meta name="description" content="Paprika inspired psychedelic dream scroll (original assets)." />
+  <meta name="description" content="Psychedelic dream scroll. Original assets only." />
 
-  <!-- preload the first background to reduce initial flash -->
+  <!-- preload first bg image -->
   <link rel="preload" as="image" href="img/Papurika_Tokyo_joku.png" />
 
   <link rel="stylesheet" href="style.css" />
@@ -14,8 +14,8 @@
 </head>
 
 <body>
-  <!-- Fixed background layers (cross-fade) -->
-  <div id="bgA" class="bgLayer" aria-hidden="true"></div>
+  <!-- Fixed background layers (image or css theme; cross-fade) -->
+  <div id="bgA" class="bgLayer on" aria-hidden="true"></div>
   <div id="bgB" class="bgLayer" aria-hidden="true"></div>
 
   <header class="topbar" role="banner">
@@ -23,22 +23,23 @@
       <span class="dot" aria-hidden="true"></span>
       <div class="brandText">
         <div class="brandName">paprika-dream</div>
-        <div class="brandMeta">psychedelic / dream / original assets</div>
+        <div class="brandMeta">dream / internet / parade / dissolve</div>
       </div>
     </div>
 
     <nav class="nav" aria-label="sections">
-      <a class="navlink" href="#tokyo" data-jump="tokyo">home</a>
-      <a class="navlink" href="#kousin" data-jump="kousin">works</a>
-      <a class="navlink" href="#main" data-jump="main">scene</a>
-      <a class="navlink" href="#robot" data-jump="robot">profile</a>
-      <a class="navlink" href="#scramble" data-jump="scramble">contact</a>
+      <a class="navlink" href="#tokyo">home</a>
+      <a class="navlink" href="#clinical">concept</a>
+      <a class="navlink" href="#main">scene</a>
+      <a class="navlink" href="#log">dream log</a>
+      <a class="navlink" href="#radio">radio club</a>
+      <a class="navlink" href="#scramble">contact</a>
       <a class="navlink ghost" href="https://tomoponz.github.io/" rel="noopener">tomoponzへ</a>
     </nav>
 
     <div class="status" aria-live="polite">
       <span class="statusLabel">now</span>
-      <span id="nowName" class="statusName">Tokyo</span>
+      <span id="nowName" class="statusName">Home</span>
     </div>
 
     <div class="progress" aria-hidden="true">
@@ -47,9 +48,11 @@
   </header>
 
   <main class="stack">
-    <section id="tokyo" class="scene" data-bg="img/Papurika_Tokyo_joku.png" data-name="Home">
+
+    <!-- 1) Home -->
+    <section id="tokyo" class="scene" data-name="Home" data-bg="img/Papurika_Tokyo_joku.png">
       <div class="panel">
-        <div class="kicker">(home)</div>
+        <div class="kicker">(home / dreaming interface)</div>
         <h1 class="h1">Dreaming Interface</h1>
         <p class="sub">
           現実の輪郭が溶け出す場所へようこそ。<br />
@@ -59,141 +62,207 @@
         </p>
 
         <div class="grid" aria-label="preview">
-          <a class="thumb" href="#kousin" aria-label="kousin">
-            <img src="img/Papurika_kousin.png" alt="" loading="lazy" decoding="async">
-            <span class="cap">kousin</span>
+          <a class="thumb" href="#clinical" aria-label="clinical">
+            <div class="thumbPh" data-theme="clinical"></div>
+            <span class="cap">clinical</span>
           </a>
           <a class="thumb" href="#main" aria-label="main">
             <img src="img/Papurika_main.png" alt="" loading="lazy" decoding="async">
-            <span class="cap">main</span>
+            <span class="cap">scene</span>
           </a>
-          <a class="thumb" href="#robot" aria-label="robot">
-            <img src="img/robottonodorei.png" alt="" loading="lazy" decoding="async">
-            <span class="cap">robot</span>
+          <a class="thumb" href="#radio" aria-label="radio">
+            <div class="thumbPh" data-theme="radio"></div>
+            <span class="cap">radio</span>
           </a>
           <a class="thumb" href="#scramble" aria-label="scramble">
             <img src="img/sukurannburukousatenn.png" alt="" loading="lazy" decoding="async">
-            <span class="cap">scramble</span>
+            <span class="cap">contact</span>
           </a>
         </div>
 
         <p class="note">
-          ※ スマホで重いときは、画像をWebP/AVIF化すると体感が一気に軽くなる。<br />
-          ※ 画像が出ない時はファイル名の大文字小文字がズレてないか確認。
+          ※ ここは“体験型作品”の入口。スクロールが深くなるほど、境界が薄くなる。
         </p>
       </div>
     </section>
 
-    <section id="kousin" class="scene" data-bg="img/Papurika_kousin.png" data-name="Works">
-      <div class="panel">
-        <div class="kicker">(works)</div>
-        <h2 class="h2">Parade of Fragments</h2>
-        <p class="sub">
-          脈絡のない記録（ログ）たちが、列をなして行進を始める。<br />
-          <span class="muted">背景：<code>img/Papurika_kousin.png</code></span>
-        </p>
+    <!-- 2) Concept / Clinical record -->
+    <section id="clinical" class="scene scene-tight" data-name="Concept" data-bg="css:clinical">
+      <div class="panel clinical">
+        <div class="kicker">(concept / clinical record)</div>
+        <h2 class="h2">CLINICAL_RECORD // PROJECT: PAPRIKA</h2>
 
-        <ul class="list">
-          <li>過去のプロジェクトは死なず、無意識の海で形を変える</li>
-          <li>バグもエラーも、ここでは極彩色のパレードの一部</li>
-          <li>抑圧された創造性が暴走する、終わりのない更新履歴</li>
-        </ul>
+        <div class="record">
+          <div class="row"><span class="key">[概要 / OVERVIEW]</span></div>
+          <div class="row">対象：集合的無意識の視覚化プロセス</div>
+          <div class="row">目的：夢の共有、および現実（インターネット）との境界の解体</div>
+
+          <div class="row spacer"></div>
+          <div class="row"><span class="key">[経過観察 / OBSERVATION]</span></div>
+          <div class="row">開発されたインターフェースは、個人の閉じた夢を一つの広大なネットワークへ接続した。</div>
+          <div class="row">結果として、抑圧された欲望、捨てられた記憶、無意味な情報群が暴走を開始。</div>
+          <div class="row">それらは形を持ち、パレードとなってこの空間を侵食し続けている。</div>
+
+          <div class="row spacer"></div>
+          <div class="row"><span class="key">[警告 / WARNING]</span></div>
+          <div class="row">夢と現実の区別は、すでに無意味である。</div>
+          <div class="row">閲覧者は自身の無意識がパレードに飲み込まれないよう注意されたし。</div>
+
+          <div class="row spacer"></div>
+          <div class="row"><span class="key">[担当医所見 / NOTE]</span></div>
+          <div class="row">「オセアニアじゃあ常識なんだよ」——被験者はそう言い残し、深い階層へ沈んでいった。</div>
+        </div>
+
+        <div class="ctaRow">
+          <a class="btn" href="#main">深部へ（scene）</a>
+          <a class="btn ghost" href="#tokyo">戻る</a>
+        </div>
       </div>
     </section>
 
-    <section id="main" class="scene" data-bg="img/Papurika_main.png" data-name="Scene">
+    <!-- 3) Scene (with weird TV + YouTube) -->
+    <section id="main" class="scene" data-name="Scene" data-bg="img/Papurika_main.png">
       <div class="panel">
-        <div class="kicker">(scene)</div>
+        <div class="kicker">(scene / the collective theater)</div>
         <h2 class="h2">The Collective Theater</h2>
         <p class="sub">
           スクリーンの向こう側で暴れ回る、純粋な混沌。<br />
-          <span class="muted">背景：<code>img/Papurika_main.png</code></span>
+          論理を捨て、色彩の渦に身を委ねるための空間。
         </p>
 
         <div class="split">
           <div class="box">
-            <div class="boxTitle">idea</div>
-            <div class="boxTag">【無意識の露出】</div>
-            <p class="boxText">すべての境界が曖昧になる中心地。論理を捨て、視覚的な暴力と色彩の渦に身を委ねるための空間。</p>
+            <div class="boxTitle">【無意識の露出】</div>
+            <p class="boxText">
+              すべての境界が曖昧になる中心地。視覚的な暴力と反復が、あなたの“輪郭”を薄くする。
+            </p>
           </div>
           <div class="box">
-            <div class="boxTitle">next</div>
-            <div class="boxTag">【胡蝶の夢】</div>
-            <p class="boxText">夢から覚めたとき、現実の方が作り物ではないと誰が証明できるだろうか。</p>
+            <div class="boxTitle">【胡蝶の夢】</div>
+            <p class="boxText">
+              夢から覚めたとき、現実の方が作り物ではないと誰が証明できるだろうか。
+            </p>
           </div>
         </div>
 
-        <div class="tvBlock" aria-label="tv video">
-          <div class="tv">
-            <div class="tvAntenna" aria-hidden="true"></div>
+        <div class="tvWrap" aria-label="weird tv player">
+          <div class="tvFrame">
+            <div class="tvBezel" aria-hidden="true"></div>
 
-            <div class="tvBezel">
-              <div class="tvScreen">
-                <button class="tvPlay" type="button" aria-label="Play video">PLAY</button>
-
-                <iframe
-                  class="tvIframe"
-                  title="Dream Signal"
-                  loading="lazy"
-                  allow="autoplay; encrypted-media; picture-in-picture"
-                  allowfullscreen
-                  data-src="https://www.youtube-nocookie.com/embed/Mr86_f-kLSQ?rel=0&modestbranding=1&playsinline=1&autoplay=1">
-                </iframe>
-
-                <div class="tvScan" aria-hidden="true"></div>
-                <div class="tvGlass" aria-hidden="true"></div>
+            <div class="tvScreen" id="tvScreen">
+              <!-- poster overlay; iframe loads on click (lighter) -->
+              <div class="tvPoster" id="tvPoster">
+                <div class="tvPosterText">
+                  <div class="tvTitle">play in TV</div>
+                  <div class="tvSub">YouTube: Mr86_f-kLSQ</div>
+                </div>
+                <button id="tvPlay" class="tvPlay" type="button">PLAY</button>
               </div>
+              <div class="tvScan" aria-hidden="true"></div>
+            </div>
 
-              <aside class="tvSide" aria-hidden="true">
-                <div class="tvKnob"></div>
-                <div class="tvKnob small"></div>
-                <div class="tvSpeaker"></div>
-              </aside>
+            <div class="tvFeet" aria-hidden="true">
+              <span class="knob"></span><span class="knob"></span><span class="knob"></span>
             </div>
           </div>
-
-          <p class="note tvNote">※ クリックでYouTubeを読み込む（軽さ優先）。奇妙な形のテレビ枠に閉じ込めた。</p>
         </div>
+
+        <p class="note">
+          ※ PLAYを押した瞬間だけYouTubeを読み込む（初回表示を軽くする）。
+        </p>
       </div>
     </section>
 
-    <section id="robot" class="scene" data-bg="img/robottonodorei.png" data-name="Profile">
+    <!-- 4) Dream Log (案3: local diary) -->
+    <section id="log" class="scene" data-name="DreamLog" data-bg="img/Papurika_kousin.png">
       <div class="panel">
-        <div class="kicker">(profile)</div>
-        <h2 class="h2">Ghost in the Machine</h2>
+        <div class="kicker">(dream log)</div>
+        <h2 class="h2">Dream Log</h2>
         <p class="sub">
-          システムの歯車であることをやめ、夢の中の蝶になる。<br />
-          <span class="muted">背景：<code>img/robottonodorei.png</code></span>
+          脈絡のない記録（ログ）たちが、列をなして行進を始める。<br />
+          バグもエラーも、ここでは極彩色のパレードの一部。
         </p>
 
-        <div class="mono">
-          <div>identity: 昼はコードに縛られ、夜は混沌を組み上げる</div>
-          <div>philosophy: 「オセアニアじゃあ常識なんだよ！」——常識を解体する視点</div>
-          <div>status: 現実とデジタルワールドの境界を彷徨う観測者</div>
+        <div class="logGrid">
+          <div class="logBox">
+            <div class="boxTitle">write</div>
+            <label class="lbl">title</label>
+            <input id="dlTitle" class="inp" type="text" placeholder="fragment title…" maxlength="80" />
+            <label class="lbl">note</label>
+            <textarea id="dlText" class="ta" rows="5" placeholder="短く、詩的に、少し不気味に。"></textarea>
+
+            <div class="btnRow">
+              <button id="dlAdd" class="btn primary" type="button">追加</button>
+              <button id="dlClear" class="btn" type="button">全消去</button>
+            </div>
+            <p class="note">※ 保存先はブラウザのlocalStorage（サーバー無し）。</p>
+          </div>
+
+          <div class="logBox">
+            <div class="boxTitle">entries</div>
+            <div id="dlList" class="entries" aria-live="polite"></div>
+            <div class="btnRow">
+              <button id="dlCopy" class="btn" type="button">全文コピー</button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section id="scramble" class="scene" data-bg="img/sukurannburukousatenn.png" data-name="Contact">
+    <!-- 5) Radio Club -->
+    <section id="radio" class="scene" data-name="RadioClub" data-bg="css:radio">
+      <div class="panel radio">
+        <div class="kicker">(radio club / refuge)</div>
+        <h2 class="h2">Radio Club</h2>
+        <p class="sub">
+          パレードの喧騒が届かない、波間の避難所。<br />
+          ここは夢の境界線。少し休んでいくといい。
+        </p>
+
+        <div class="radioCols">
+          <div class="radioCol">
+            <div class="boxTitle">◆ Frequencies (Inspirations)</div>
+            <ul class="linkList">
+              <li><a class="alink" href="https://109ichiki.com/" target="_blank" rel="noopener">109ichiki.com</a> <span class="hint">— 別の夢の観測点</span></li>
+              <li><span class="dim">[ add your links… ]</span></li>
+            </ul>
+          </div>
+
+          <div class="radioCol">
+            <div class="boxTitle">◆ Audiovisual</div>
+            <ul class="linkList">
+              <li><span class="dim">[ playlist / music / noise… ]</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <p class="note">
+          グラスが空いたら、また狂気の中へ戻ろう。
+        </p>
+      </div>
+    </section>
+
+    <!-- 6) Contact -->
+    <section id="scramble" class="scene" data-name="Contact" data-bg="img/sukurannburukousatenn.png">
       <div class="panel">
-        <div class="kicker">(contact)</div>
+        <div class="kicker">(contact / awakening point)</div>
         <h2 class="h2">Awakening Point</h2>
         <p class="sub">
           夢から覚める時間だ。<br />
           しかし、この交差点で交わしたシグナルは、現実世界へと持ち越される。<br />
-          混沌のパレードの果てで、あなたからの新たな接続（アクセス）を待っている。<br />
-          <span class="muted">背景：<code>img/sukurannburukousatenn.png</code></span>
+          混沌のパレードの果てで、あなたからの新たな接続（アクセス）を待っている。
         </p>
 
         <div class="foot">
-          <a class="btn" href="#tokyo">現実へ戻る（先頭へ）</a>
+          <a class="btn primary" href="#tokyo">現実へ戻る（先頭へ）</a>
         </div>
       </div>
     </section>
+
   </main>
 
   <footer class="footer">
-    <small>© paprika-dream • background changes on scroll</small>
+    <small>© paprika-dream • scroll experience</small>
   </footer>
 </body>
 </html>
