@@ -90,14 +90,33 @@
     if(!yt) return;
     const m = mute ? 1 : 0;
     // Autoplay with sound is typically blocked; we autoplay muted.
-    yt.src = `https://www.youtube-nocookie.com/embed/Mr86_f-kLSQ?autoplay=1&mute=${m}&playsinline=1&rel=0&modestbranding=1`;
+    const origin = encodeURIComponent(location.origin);
+    yt.src = `https://www.youtube-nocookie.com/embed/Mr86_f-kLSQ?autoplay=1&mute=${m}&playsinline=1&rel=0&modestbranding=1&enablejsapi=1&origin=${origin}`;
   }
 
   // autoplay muted on load
   setYtSrc(true);
 
-  // unmute by user gesture (reload iframe with mute=0)
-  unmuteBtn?.addEventListener("click", () => setYtSrc(false));
+  // YouTube Iframe API command helper (works when enablejsapi=1)
+  function ytCmd(func, args){
+    if(!yt || !yt.contentWindow) return false;
+    try{
+      yt.contentWindow.postMessage(JSON.stringify({ event: "command", func, args }), "*");
+      return true;
+    }catch(e){
+      return false;
+    }
+  }
+
+  // unmute by user gesture
+  unmuteBtn?.addEventListener("click", () => {
+    // Try unmuting without reloading (more stable)
+    const ok = ytCmd("unMute") || ytCmd("setVolume", [100]);
+    ytCmd("setVolume", [100]);
+
+    // Fallback: reload iframe with mute=0 (still requires a user gesture)
+    if(!ok) setYtSrc(false);
+  });
 
   // close dock (stop playback)
   closeBtn?.addEventListener("click", () => {
